@@ -7,5 +7,6 @@ Feature: Admin Login
       Given Creat Job
       Given Creat Vacancy
       Given Creat Candidate
+      When  Recruitment Form
 
 

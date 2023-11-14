@@ -1,20 +1,18 @@
 export default class ClaimAssign {
   static elements = {
-    claimPage: () => cy.get(".oxd-main-menu").contains("Claim"),
-    employeeClaimTab: () =>
-      cy.get(".oxd-topbar-body-nav").contains("Employee Claims"),
+    RecruitmentPage: () => cy.get(".oxd-main-menu").contains("Recruitment"),
+    employeeClaimTab: () => cy.get(".oxd-topbar-body-nav").contains("Candidates"),
     employeeInput: () => cy.get(".oxd-input-group").eq(0),
     dropDown: () => cy.get(".oxd-autocomplete-dropdown"),
     searchBtn: () => cy.get(".oxd-form-actions > .oxd-button--secondary"),
     tableRow: () => cy.get(".oxd-table-body"),
     approveBtn: () => cy.get(".oxd-button--secondary"),
     rejectBtn: () => cy.get(".oxd-button--danger"),
-    loadingSpinner: () =>
-      cy.get(".oxd-loading-spinner-container", { timeout: 40000 }),
+    loadingSpinner: () => cy.get(".oxd-loading-spinner-container", { timeout: 40000 }),
   };
 
   static claimEmployee(firstName: string, lastName: string) {
-    this.elements.claimPage().click();
+    this.elements.RecruitmentPage().click();
     this.elements.employeeClaimTab().click();
     this.elements.employeeInput().type(firstName + " ");
     this.elements
@@ -42,7 +40,7 @@ export default class ClaimAssign {
             }
           })
           .then(() => {
-            this.elements.claimPage().click();
+            this.elements.RecruitmentPage().click();
             this.elements.employeeClaimTab().click();
           });
       });

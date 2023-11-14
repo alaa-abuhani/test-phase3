@@ -70,6 +70,9 @@ Given("Creat Candidate", () => {
     .then(() => {
       candidateSheduleInterview(idCandidate, "testing", date, empNumber);
     });
-
   // cy.visit("/auth/login");
+});
+When("Recruitment Form", () => {
+  cy.get(".oxd-main-menu").contains("Recruitment").click();
+  cy.get(".oxd-topbar-body-nav").contains("Candidates").click();
 });
