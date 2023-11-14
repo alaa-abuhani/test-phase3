@@ -72,7 +72,34 @@ Given("Creat Candidate", () => {
     });
   // cy.visit("/auth/login");
 });
-When("Recruitment Form", () => {
+When("Recruitment Form Passed", () => {
   cy.get(".oxd-main-menu").contains("Recruitment").click();
   cy.get(".oxd-topbar-body-nav").contains("Candidates").click();
+  cy.get(".oxd-select-text-input").eq(1).click({ force: true });
+  cy.get(".oxd-select-dropdown").contains(vacancyName).click();
+  cy.get(".oxd-button--secondary").eq(0).click({ force: true });
+
+  cy.get(" .oxd-table-cell-actions  >.oxd-icon-button").eq(0).click();
+
+  cy.get(".oxd-button--success").click({ force: true });
+  cy.get(".oxd-button--secondary").click();
 });
+
+//////////////////////////
+When("Recruitment Form Failed", () => {
+  cy.get(".oxd-main-menu").contains("Recruitment").click();
+  cy.get(".oxd-topbar-body-nav").contains("Candidates").click();
+  cy.get(".oxd-select-text-input").eq(1).click({ force: true });
+  cy.get(".oxd-select-dropdown").contains(vacancyName).click();
+  cy.get(".oxd-button--secondary")
+    .eq(0)
+    .click({ force: true })
+    .then(() => {
+      cy.get(" .oxd-table-cell-actions  >.oxd-icon-button").eq(0).click();
+    });
+  cy.get(".oxd-button--danger").eq(1).click({ force: true });
+  cy.get(".oxd-button--secondary").click();
+});
+
+When("check status pass", () => {});
+When("check status fail", () => {});
