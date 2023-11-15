@@ -1,8 +1,10 @@
 import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 import login from "../../../support/PageObject/login";
-import { addCandidate, addEmployee, addJob, addUser, addVacancy, candidateSheduleInterview, candidateShortList, deleteEmployee, deleteEvents, deleteExpenses } from "../../../support/Helper/Claim/api-helper";
+import { addCandidate, addEmployee, addJob, addUser, addVacancy, candidateShortList, deleteEmployee, deleteEvents, deleteExpenses, sheduleInterview } from "../../../support/Helper/Claim/api-helper";
 import { visitHomePage } from "../../../support/PageObject/common-page-visit";
 import moment from "moment";
+import Candidate from "../../../support/PageObject/Candidate/Candidate-action";
+import { checkFailAndButton, checkPassAndButtons } from "../../../support/PageObject/Candidate/Candidate-assertion";
 let firstNameCan: any;
 let middleNameCan: any;
 let lastNameCan: any;
@@ -14,7 +16,7 @@ let idCandidate: any;
 let empNumber: number; //store employeeNumber retrieve from API
 let employeeName: string;
 let vacancyName: any;
-let expectValue: any;
+let buttonsName = ["Reject", "Schedule Interview", "Offer Job"];
 let jobTitle: string;
 let idjob: any;
 let firstName: string;
@@ -62,57 +64,22 @@ Given("Creat Candidate", () => {
   addCandidate(firstNameCan, middleNameCan, lastNameCan, date, email, idVacancy).then((id) => {
     idCandidate = id;
     candidateShortList(idCandidate);
-    candidateSheduleInterview(idCandidate, "testing", date, empNumber);
+    sheduleInterview(idCandidate, "testing", date, empNumber);
   });
 });
-// cy.visit("/auth/login");
+
 When("Recruitment Form Passed", () => {
-  cy.get(".oxd-main-menu").contains("Recruitment").click();
-  cy.get(".oxd-topbar-body-nav").contains("Candidates").click();
-  cy.get(".oxd-select-text-input").eq(1).click({ force: true });
-  cy.get(".oxd-select-dropdown").contains(vacancyName).click();
-  cy.get(".oxd-button--secondary").eq(0).click({ force: true });
-  cy.get(" .oxd-table-cell-actions  >.oxd-icon-button").eq(0).click();
-  cy.get(".oxd-button--success").click({ force: true });
-  cy.get(".oxd-button--secondary").click();
+  Candidate.approveReject(vacancyName, "success");
 });
 
 //////////////////////////
 When("Recruitment Form Failed", () => {
-  cy.get(".oxd-main-menu").contains("Recruitment").click();
-  cy.get(".oxd-topbar-body-nav").contains("Candidates").click();
-  cy.get(".oxd-select-text-input").eq(1).click({ force: true });
-  cy.get(".oxd-select-dropdown").contains(vacancyName).click();
-  cy.get(".oxd-button--secondary").eq(0).click({ force: true });
-  cy.get(" .oxd-table-cell-actions  >.oxd-icon-button").eq(0).click();
-  cy.get(".oxd-button--danger").eq(1).click({ force: true });
-  cy.get(".oxd-button--secondary").click();
+  Candidate.approveReject(vacancyName, "reject");
 });
 
-Then("check status pass", () => {
-  // cy.get(".oxd-topbar-body-nav").contains("Candidates").click();
-  // cy.get(".oxd-select-text-input").eq(1).click({ force: true });
-  // cy.get(".oxd-select-dropdown").contains(vacancyName).click();
-  // cy.get(".oxd-button--secondary").eq(0).click({ force: true });
-  // cy.get(" .oxd-table-cell-actions  >.oxd-icon-button").eq(0).click();
-  cy.get(".orangehrm-recruitment-status").should("contain", "Status: Interview Passed");
-  let expectValue = [" Reject ", " Schedule Interview ", " Offer Job "];
-  cy.get(".orangehrm-recruitment-actions")
-    .find("button")
-    .each((cell, cellIndex) => {
-      cy.wrap(cell).invoke("text").should("contain", expectValue[cellIndex]);
-    });
+Then("Check Status Pass", () => {
+  checkPassAndButtons(buttonsName);
 });
-Then("check status fail", () => {
-  // cy.get(".oxd-topbar-body-nav").contains("Candidates").click();
-  // cy.get(".oxd-select-text-input").eq(1).click({ force: true });
-  // cy.get(".oxd-select-dropdown").contains(vacancyName).click();
-  // cy.get(".oxd-button--secondary").eq(0).click({ force: true });
-  // cy.get(" .oxd-table-cell-actions  >.oxd-icon-button").eq(0).click();
-  cy.get(".orangehrm-recruitment-status").should("contain", "Status: Interview Failed");
-  cy.get("button").should("have.class", "oxd-button--danger");
+Then("Check Status Fail", () => {
+  checkFailAndButton();
 });
-
-// Then("check status pass", () => {});
-
-// Then("check status fail", () => {});

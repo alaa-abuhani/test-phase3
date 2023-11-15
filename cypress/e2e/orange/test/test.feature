@@ -8,7 +8,7 @@ Feature: Candidate Interview
       Given Creat Vacancy
       Given Creat Candidate
       When  Recruitment Form Passed
-      Then  check status pass
+      Then  Check Status Pass
 
    Scenario: Reject Interview
       Given Admin Login
@@ -17,6 +17,6 @@ Feature: Candidate Interview
       Given Creat Vacancy
       Given Creat Candidate
       When  Recruitment Form Failed
-      Then  check status fail
+      Then  Check Status Fail
 
 

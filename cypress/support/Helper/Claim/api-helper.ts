@@ -12,7 +12,7 @@ export const URLs: any = {
 export const addJob = (jobTitle: any) => {
   return cy.api({ method: "POST", url: URLs.job, body: jobData(jobTitle) }).then((res) => res.body.data.id);
 };
-export const candidateSheduleInterview = (idCandidate: any, interviewName: any, interviewDate: any, empNumber: any) => {
+export const sheduleInterview = (idCandidate: any, interviewName: any, interviewDate: any, empNumber: any) => {
   return cy.api({ method: "POST", url: `/api/v2/recruitment/candidates/${idCandidate}/shedule-interview`, body: sheduleInterviewData(interviewName, interviewDate, empNumber) }).then((res) => res.body.data.id);
 };
 
