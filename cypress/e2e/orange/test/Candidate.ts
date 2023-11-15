@@ -41,21 +41,17 @@ Given("Creat Employee", () => {
   cy.get("@empInfo").then((empInfo: any) => {
     firstName = empInfo[0].firstName;
     lastName = empInfo[0].lastName;
-    employeeName = empInfo[0].firstName + " " + empInfo[0].lastName;
-    vacancyName = empInfo[1].vacancyName + Math.round(1000 * Math.random());
-    jobTitle = empInfo[1].jobTitle + Math.round(1000 * Math.random());
+    vacancyName = empInfo[1].vacancyName;
+    jobTitle = empInfo[1].jobTitle;
     //greate  employee via api
     addEmployee(firstName, empInfo[0].id, lastName).then((empNum: any) => {
       empNumber = empNum;
-      addUser(empNum, empInfo[0].userName + Math.round(1000 * Math.random()), empInfo[0].password);
+      addUser(empNum, empInfo[0].userName, empInfo[0].password);
     });
   });
 });
 Given("Creat Job", () => {
-  addJob(jobTitle).then((id) => {
-    idjob = id;
-    cy.log(id, "jooob", empNumber, vacancyName);
-  });
+  addJob(jobTitle).then((id) => (idjob = id));
 });
 Given("Creat Vacancy", () => {
   addVacancy(vacancyName, empNumber, idjob).then((id) => (idVacancy = id));

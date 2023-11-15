@@ -6,7 +6,7 @@ export default class Candidate {
     dropDown: () => cy.get(".oxd-select-dropdown"),
     searchBtn: () => cy.get(".oxd-button--secondary").eq(0),
     actionsIcon: () => cy.get(" .oxd-table-cell-actions  >.oxd-icon-button").eq(0),
-    successBtb: () => cy.get(".oxd-button--success"),
+    successBtb: () => cy.get(".oxd-button--success").eq(0),
     rejectBtn: () => cy.get(".oxd-button--danger").eq(1),
     saveBtn: () => cy.get(".oxd-button--secondary"),
   };
