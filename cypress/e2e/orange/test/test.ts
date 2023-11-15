@@ -78,9 +78,7 @@ When("Recruitment Form Passed", () => {
   cy.get(".oxd-select-text-input").eq(1).click({ force: true });
   cy.get(".oxd-select-dropdown").contains(vacancyName).click();
   cy.get(".oxd-button--secondary").eq(0).click({ force: true });
-
   cy.get(" .oxd-table-cell-actions  >.oxd-icon-button").eq(0).click();
-
   cy.get(".oxd-button--success").click({ force: true });
   cy.get(".oxd-button--secondary").click();
 });
@@ -91,15 +89,32 @@ When("Recruitment Form Failed", () => {
   cy.get(".oxd-topbar-body-nav").contains("Candidates").click();
   cy.get(".oxd-select-text-input").eq(1).click({ force: true });
   cy.get(".oxd-select-dropdown").contains(vacancyName).click();
-  cy.get(".oxd-button--secondary")
-    .eq(0)
-    .click({ force: true })
-    .then(() => {
-      cy.get(" .oxd-table-cell-actions  >.oxd-icon-button").eq(0).click();
-    });
+  cy.get(".oxd-button--secondary").eq(0).click({ force: true });
+  cy.get(" .oxd-table-cell-actions  >.oxd-icon-button").eq(0).click();
   cy.get(".oxd-button--danger").eq(1).click({ force: true });
   cy.get(".oxd-button--secondary").click();
 });
 
-When("check status pass", () => {});
-When("check status fail", () => {});
+When("check status pass", () => {
+  cy.get(".oxd-topbar-body-nav").contains("Candidates").click();
+  cy.get(".oxd-select-text-input").eq(1).click({ force: true });
+  cy.get(".oxd-select-dropdown").contains(vacancyName).click();
+  cy.get(".oxd-button--secondary").eq(0).click({ force: true });
+  cy.get(" .oxd-table-cell-actions  >.oxd-icon-button").eq(0).click();
+  cy.get(".orangehrm-recruitment-status").should("contain", "Status: Interview Passed");
+  let expectValue = [" Reject ", " Schedule Interview ", " Offer Job "];
+  cy.get(".orangehrm-recruitment-actions")
+    .find("button")
+    .each((cell, cellIndex) => {
+      cy.wrap(cell).invoke("text").should("contain", expectValue[cellIndex]);
+    });
+});
+When("check status fail", () => {
+  cy.get(".oxd-topbar-body-nav").contains("Candidates").click();
+  cy.get(".oxd-select-text-input").eq(1).click({ force: true });
+  cy.get(".oxd-select-dropdown").contains(vacancyName).click();
+  cy.get(".oxd-button--secondary").eq(0).click({ force: true });
+  cy.get(" .oxd-table-cell-actions  >.oxd-icon-button").eq(0).click();
+  cy.get(".orangehrm-recruitment-status").should("contain", "Status: Interview Failed");
+  cy.get("button").should("have.class", "oxd-button--danger");
+});
