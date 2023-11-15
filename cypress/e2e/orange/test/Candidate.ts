@@ -1,6 +1,6 @@
 import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 import login from "../../../support/PageObject/login";
-import { addCandidate, addEmployee, addJob, addUser, addVacancy, candidateShortList, deleteEmployee, deleteEvents, deleteExpenses, sheduleInterview } from "../../../support/Helper/Claim/api-helper";
+import { addCandidate, addEmployee, addJob, addUser, addVacancy, candidateShortList, deleteCandidates, deleteEmployee, deleteJob, deleteVacancy, sheduleInterview } from "../../../support/Helper/Claim/api-helper";
 import { visitHomePage } from "../../../support/PageObject/common-page-visit";
 import moment from "moment";
 import Candidate from "../../../support/PageObject/Candidate/Candidate-action";
@@ -74,12 +74,20 @@ When("Recruitment Form Passed", () => {
 
 //////////////////////////
 When("Recruitment Form Failed", () => {
-  Candidate.approveReject(vacancyName, "reject");
+  Candidate.approveReject(vacancyName, "fail");
 });
 
 Then("Check Status Pass", () => {
   checkPassAndButtons(buttonsName);
+  deleteEmployee(empNumber);
+  deleteJob(idjob);
+  deleteVacancy(idVacancy);
+  deleteCandidates(idCandidate);
 });
 Then("Check Status Fail", () => {
   checkFailAndButton();
+  deleteEmployee(empNumber);
+  deleteJob(idjob);
+  deleteVacancy(idVacancy);
+  deleteCandidates(idCandidate);
 });
