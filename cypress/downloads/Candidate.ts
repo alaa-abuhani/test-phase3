@@ -3,8 +3,9 @@ import login from "../../../support/PageObject/login";
 import { addCandidate, addEmployee, addJob, addUser, addVacancy, candidateShortList, deleteCandidates, deleteEmployee, deleteJob, deleteVacancy, sheduleInterview } from "../../../support/Helper/Claim/api-helper";
 import { visitHomePage } from "../../../support/PageObject/common-page-visit";
 import moment from "moment";
-import Candidate from "../../../support/PageObject/Candidate/Candidate-action";
 import { checkFailAndButton, checkPassAndButtons } from "../../../support/PageObject/Candidate/Candidate-assertion";
+import Candidate from "../../../support/PageObject/Candidate/Candidate-action";
+
 let firstNameCan: any;
 let middleNameCan: any;
 let lastNameCan: any;
@@ -68,7 +69,6 @@ When("Recruitment Form Passed", () => {
   Candidate.approveReject(vacancyName, "success");
 });
 
-//////////////////////////
 When("Recruitment Form Failed", () => {
   Candidate.approveReject(vacancyName, "fail");
 });

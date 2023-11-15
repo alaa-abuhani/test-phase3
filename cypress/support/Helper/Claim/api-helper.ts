@@ -17,7 +17,6 @@ export const sheduleInterview = (idCandidate: any, interviewName: any, interview
 };
 
 export const addVacancy = (vacancyName: any, employeeId: any, jobId: any) => {
-  cy.log(vacancyName, employeeId, jobId, "in");
   return cy
     .api({
       method: "POST",
@@ -41,20 +40,14 @@ export const candidateShortList = (idCandidate: any) => {
   return cy
     .api({
       method: "PUT",
-      url: `https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/recruitment/candidates/${idCandidate}/shortlist`,
+      url: `/api/v2/recruitment/candidates/${idCandidate}/shortlist`,
       body: {
         note: null,
       },
     })
     .then((res) => res);
 };
-// export const addClaimExpenses = (idExpenses: any, idClaim: number, date: any, amount: any) => {
-//   cy.api({
-//     method: "POST",
-//     url: `/api/v2/claim/requests/${idClaim}/expenses`,
-//     body: claimExpensesData(idExpenses, date, amount),
-//   });
-// };
+
 export const addCandidate = (firstName: any, middleName: any, lastName: any, date: any, email: any, vacancyId: any) => {
   return cy
     .api({
