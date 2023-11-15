@@ -1,7 +1,7 @@
 Feature: Candidate Interview
    I Want To Login To Site
 
-   Scenario: Pass Interview
+   Scenario:   Verify The Admin can successfully transition the candidate's status to  Interview Passed
       Given Admin Login
       Given Creat Employee
       Given Creat Job
@@ -10,7 +10,7 @@ Feature: Candidate Interview
       When  Recruitment Form Passed
       Then  Check Status Pass
 
-   Scenario: Reject Interview
+   Scenario: Verify The Admin can successfully transition the candidate's status to Interview Failed
       Given Admin Login
       Given Creat Employee
       Given Creat Job
