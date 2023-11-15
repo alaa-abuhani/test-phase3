@@ -1,4 +1,4 @@
-Feature: Admin Login
+Feature: Candidate Interview
    I Want To Login To Site
 
    Scenario: Pass Interview

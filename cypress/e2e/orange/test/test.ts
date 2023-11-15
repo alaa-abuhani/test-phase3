@@ -56,20 +56,13 @@ Given("Creat Job", () => {
   });
 });
 Given("Creat Vacancy", () => {
-  addVacancy(vacancyName, empNumber, idjob).then((id) => {
-    idVacancy = id;
-  });
+  addVacancy(vacancyName, empNumber, idjob).then((id) => (idVacancy = id));
 });
 Given("Creat Candidate", () => {
   addCandidate(firstNameCan, middleNameCan, lastNameCan, date, email, idVacancy)
     .then((id) => (idCandidate = id))
-    .then(() => {
-      cy.log(idCandidate, "iddddddddddddddd");
-      candidateShortList(idCandidate);
-    })
-    .then(() => {
-      candidateSheduleInterview(idCandidate, "testing", date, empNumber);
-    });
+    .then(() => candidateShortList(idCandidate))
+    .then(() => candidateSheduleInterview(idCandidate, "testing", date, empNumber));
   // cy.visit("/auth/login");
 });
 When("Recruitment Form Passed", () => {
