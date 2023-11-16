@@ -1,6 +1,6 @@
 import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 import login from "../../support/PageObject/login";
-import { addCandidate, addEmployee, addJob, addUser, addVacancy, candidateShortList, deleteCandidates, deleteEmployee, deleteJob, deleteVacancy, sheduleInterview } from "../../support/Helper/Claim/api-helper";
+import { addCandidate, addEmployee, addJob, addUser, addVacancy, candidateShortList, deleteCandidates, deleteEmployee, deleteJob, deleteVacancy, sheduleInterview } from "../../support/Helper/Candidates/api-helper";
 import { visitHomePage } from "../../support/PageObject/common-page-visit";
 import moment from "moment";
 import Candidate from "../../support/PageObject/Candidate/candidate-action";
@@ -15,13 +15,10 @@ const loginObj: login = new login();
 let idVacancy: any;
 let idCandidate: any;
 let empNumber: number; //store employeeNumber retrieve from API
-let employeeName: string;
 let vacancyName: any;
 let buttonsName = ["Reject", "Schedule Interview", "Offer Job"];
 let jobTitle: string;
 let idjob: any;
-let firstName: string;
-let lastName: string;
 Given("Admin Login", () => {
   cy.intercept("/web/index.php/dashboard/index").as("loginpage");
   visitHomePage();
@@ -40,12 +37,10 @@ Given("Creat Employee", () => {
   });
   cy.fixture("employee-info.json").as("empInfo");
   cy.get("@empInfo").then((empInfo: any) => {
-    firstName = empInfo[0].firstName;
-    lastName = empInfo[0].lastName;
     vacancyName = empInfo[1].vacancyName;
     jobTitle = empInfo[1].jobTitle;
     //greate  employee via api
-    addEmployee(firstName, empInfo[0].id, lastName).then((empNum: any) => {
+    addEmployee(empInfo[0].firstName, empInfo[0].id, empInfo[0].lastName).then((empNum: any) => {
       empNumber = empNum;
       addUser(empNum, empInfo[0].userName, empInfo[0].password);
     });
