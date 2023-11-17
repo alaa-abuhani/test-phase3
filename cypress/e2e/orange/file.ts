@@ -4,20 +4,17 @@ import { addCandidate, addEmployee, addJob, addUser, addVacancy, candidateShortL
 import { visitHomePage } from "../../support/PageObject/common-page-visit";
 import moment from "moment";
 import File from "../../support/PageObject/File/file-action";
-// import Candidate from "../../support/PageObject/Candidate/candidate-action";
-// import { checkFailAndButton, checkPassAndButtons } from "../../support/PageObject/Candidate/candidate-assertion";
 const path = "cypress/fixtures/alaa.txt";
+const loginObj: login = new login();
+let date = moment().format("YYYY-MM-DD");
 let firstNameCan: any;
 let middleNameCan: any;
 let lastNameCan: any;
-let date = moment().format("YYYY-MM-DD");
 let email: any;
-const loginObj: login = new login();
 let idVacancy: any;
 let idCandidate: any;
 let empNumber: number; //store employeeNumber retrieve from API
 let vacancyName: any;
-let buttonsName = ["Reject", "Schedule Interview", "Offer Job"];
 let jobTitle: string;
 let idjob: any;
 Given("Admin login", () => {
@@ -28,7 +25,7 @@ Given("Admin login", () => {
     loginObj.loginValid(loginInfo.Admin, loginInfo.Password);
   });
 });
-Given("Creat Employee", () => {
+Given("Create Employee", () => {
   cy.fixture("candidate-info.json").as("candidateInfo");
   cy.get("@candidateInfo").then((candidateInfo: any) => {
     firstNameCan = candidateInfo[0].firstName;
@@ -47,25 +44,20 @@ Given("Creat Employee", () => {
     });
   });
 });
-Given("Creat job", () => {
+Given("Create job", () => {
   addJob(jobTitle).then((id) => (idjob = id));
 });
-Given("Creat Vacancy", () => {
+Given("Create Vacancy", () => {
   addVacancy(vacancyName, empNumber, idjob).then((id) => (idVacancy = id));
 });
-Given("Creat Candidate", () => {
-  addCandidate(firstNameCan, middleNameCan, lastNameCan, date, email, idVacancy).then((id) => {
-    idCandidate = id;
-    // candidateShortList(idCandidate);
-    // sheduleInterview(idCandidate, "testing", date, empNumber);
-  });
+Given("Create Candidate", () => {
+  addCandidate(firstNameCan, middleNameCan, lastNameCan, date, email, idVacancy).then((id) => (idCandidate = id));
 });
-Given("Creat Candidate to Hired", () => {
+Given("Create Candidate to Hired", () => {
   addCandidate(firstNameCan, middleNameCan, lastNameCan, date, email, idVacancy).then((id) => {
     idCandidate = id;
     candidateShortList(idCandidate);
     sheduleInterview(idCandidate, "testing", date, empNumber).then((id) => {
-      cy.log(`${id}`, "DKJNGDRKJGNSDKJGNSDKGND");
       cy.api({
         method: "PUT",
         url: `/api/v2/recruitment/candidates/${idCandidate}/interviews/${id}/pass`,
@@ -96,28 +88,14 @@ Given("Creat Candidate to Hired", () => {
 });
 
 When("upload the file", () => {
-  // File.approveReject(vacancyName);
   File.uploaedFile(vacancyName, path);
+  cy.get(".orangehrm-file-preview");
 });
 
-// When("Recruitment Form Failed", () => {
-//   Candidate.approveReject(vacancyName, "fail");
-// });
-
-//
-//https:opensource-demo.orangehrmlive.com/web/index.php/api/v2/recruitment/candidates/29/job/offer
-// https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/recruitment/candidates/29/hire
 Then("Check upload file", () => {
-  //   checkPassAndButtons(buttonsName);
+  cy.readFile("cypress/downloads/alaa.txt").should("contain", "hello");
   deleteEmployee(empNumber);
   deleteJob(idjob);
   deleteVacancy(idVacancy);
   deleteCandidates(idCandidate);
 });
-// Then("Check Status Fail", () => {
-//   checkFailAndButton();
-//   deleteEmployee(empNumber);
-//   deleteJob(idjob);
-//   deleteVacancy(idVacancy);
-//   deleteCandidates(idCandidate);
-// });
