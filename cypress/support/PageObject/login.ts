@@ -5,8 +5,7 @@ class login {
     loginBtn: () => cy.get("button"),
     Dashboard: () => cy.get(".oxd-topbar-header-title"),
 
-    MessageRequiredUsername: () =>
-      cy.get(":nth-child(2) > .oxd-input-group > .oxd-text"),
+    MessageRequiredUsername: () => cy.get(" .oxd-input-group > .oxd-text"),
     MessageRequiresPassword: () => cy.get(".oxd-input-group > .oxd-text"),
   };
 

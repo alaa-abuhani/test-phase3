@@ -1,6 +1,6 @@
 import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 import login from "../../support/PageObject/login";
-import { addCandidate, addEmployee, addJob, addUser, addVacancy, candidateShortList, deleteCandidates, deleteEmployee, deleteJob, deleteVacancy, sheduleInterview } from "../../support/Helper/Candidates/api-helper";
+import { addCandidate, addEmployee, addJob, addUser, addVacancy, candidateHired, candidateShortList, deleteCandidates, deleteEmployee, deleteJob, deleteVacancy, sheduleInterview } from "../../support/Helper/Candidates/api-helper";
 import { visitHomePage } from "../../support/PageObject/common-page-visit";
 import moment from "moment";
 import File from "../../support/PageObject/File/file-action";
@@ -57,42 +57,18 @@ Given("Create Candidate to Hired", () => {
   addCandidate(firstNameCan, middleNameCan, lastNameCan, date, email, idVacancy).then((id) => {
     idCandidate = id;
     candidateShortList(idCandidate);
-    sheduleInterview(idCandidate, "testing", date, empNumber).then((id) => {
-      cy.api({
-        method: "PUT",
-        url: `/api/v2/recruitment/candidates/${idCandidate}/interviews/${id}/pass`,
-        body: {
-          note: null,
-        },
-      })
-        .then(() => {
-          cy.api({
-            method: "PUT",
-            url: `/api/v2/recruitment/candidates/${idCandidate}/job/offer`,
-            body: {
-              note: null,
-            },
-          });
-        })
-        .then(() => {
-          cy.api({
-            method: "PUT",
-            url: `/api/v2/recruitment/candidates/${idCandidate}/hire`,
-            body: {
-              note: null,
-            },
-          });
-        });
+    sheduleInterview(idCandidate, "testing", date, empNumber).then((idInterview) => {
+      candidateHired(idCandidate, idInterview);
     });
   });
 });
 
-When("upload the file", () => {
-  File.uploaedFile(vacancyName, path);
+When("Upload the file", () => {
+  File.uploadedFile(vacancyName, path);
   cy.get(".orangehrm-file-preview");
 });
 
-Then("Check upload file", () => {
+Then("Check upload file should contain the same data as was uploaded", () => {
   cy.readFile("cypress/downloads/alaa.txt").should("contain", "hello");
   deleteEmployee(empNumber);
   deleteJob(idjob);

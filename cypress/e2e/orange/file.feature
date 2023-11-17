@@ -1,22 +1,19 @@
 Feature: Candidate Interview uploade file
-    Scenario: Application Initiated
+    Scenario: Application Initiated status
         Given  Admin login
         Given Create Employee
         Given Create job
         Given Create Vacancy
         Given Create Candidate
-        When upload the file
-        # Then The uploaded file should contain the same data as was uploaded
-        Then Check upload file
+        When Upload the file
+        Then Check upload file should contain the same data as was uploaded
 
 
-    Scenario:  Hired statuses
+    Scenario:  Hired status
         Given  Admin login
         Given Create Employee
         Given Create job
         Given Create Vacancy
         Given Create Candidate to Hired
-        # When Change the candidate status
-        When upload the file
-        #     Then The uploaded file should contain the same data as was uploaded
-        Then Check upload file
+        When Upload the file
+        Then Check upload file should contain the same data as was uploaded
