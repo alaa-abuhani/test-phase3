@@ -50,14 +50,7 @@ export const vacancyData = (vacancyName: any, employeeId: any, jobTitleId: any):
   };
   return Vacancy;
 };
-export const addClaimData = (idEvent: any, currencyId: any): any => {
-  let addClaim: any = {
-    claimEventId: idEvent,
-    currencyId: currencyId,
-    remarks: null,
-  };
-  return addClaim;
-};
+
 export const candidateData = (firstName: any, middleName: any, lastName: any, date: any, email: any, vacancyId: any) => {
   let addClaim: any = {
     firstName: firstName,
@@ -72,11 +65,4 @@ export const candidateData = (firstName: any, middleName: any, lastName: any, da
     vacancyId: vacancyId,
   };
   return addClaim;
-};
-
-export const submitClaimData = () => {
-  let submitClaim: any = {
-    action: "SUBMIT",
-  };
-  return submitClaim;
 };
