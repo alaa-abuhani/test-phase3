@@ -1,12 +1,14 @@
 import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
-import login from "../../support/PageObject/login";
-import { addCandidate, addEmployee, addJob, addUser, addVacancy, candidateHired, candidateShortList, deleteCandidates, deleteEmployee, deleteJob, deleteVacancy, sheduleInterview } from "../../support/Helper/Candidates/api-helper";
-import { visitHomePage } from "../../support/PageObject/common-page-visit";
+import login from "../../../support/PageObject/login";
+import { addCandidate, addEmployee, addJob, addUser, addVacancy, candidateHired, candidateShortList, deleteCandidates, deleteEmployee, deleteJob, deleteVacancy, sheduleInterview } from "../../../support/Helper/Candidates/api-helper";
+import { visitHomePage } from "../../../support/PageObject/common-page-visit";
 import moment from "moment";
-import File from "../../support/PageObject/File/file-action";
+import File from "../../../support/PageObject/File/file-action";
+import { checkDataFile } from "../../../support/PageObject/File/file-assertion";
 const path = "cypress/fixtures/alaa.txt";
 const loginObj: login = new login();
 let date = moment().format("YYYY-MM-DD");
+let interviewName = "QA engineer";
 let firstNameCan: any;
 let middleNameCan: any;
 let lastNameCan: any;
@@ -16,7 +18,7 @@ let idCandidate: any;
 let empNumber: number; //store employeeNumber retrieve from API
 let vacancyName: any;
 let jobTitle: string;
-let idjob: any;
+let idJob: any;
 Given("Admin login", () => {
   cy.intercept("/web/index.php/dashboard/index").as("loginpage");
   visitHomePage();
@@ -45,10 +47,10 @@ Given("Create Employee", () => {
   });
 });
 Given("Create job", () => {
-  addJob(jobTitle).then((id) => (idjob = id));
+  addJob(jobTitle).then((id) => (idJob = id));
 });
 Given("Create Vacancy", () => {
-  addVacancy(vacancyName, empNumber, idjob).then((id) => (idVacancy = id));
+  addVacancy(vacancyName, empNumber, idJob).then((id) => (idVacancy = id));
 });
 Given("Create Candidate", () => {
   addCandidate(firstNameCan, middleNameCan, lastNameCan, date, email, idVacancy).then((id) => (idCandidate = id));
@@ -57,7 +59,7 @@ Given("Create Candidate to Hired", () => {
   addCandidate(firstNameCan, middleNameCan, lastNameCan, date, email, idVacancy).then((id) => {
     idCandidate = id;
     candidateShortList(idCandidate);
-    sheduleInterview(idCandidate, "testing", date, empNumber).then((idInterview) => {
+    sheduleInterview(idCandidate, interviewName, date, empNumber).then((idInterview) => {
       candidateHired(idCandidate, idInterview);
     });
   });
@@ -65,13 +67,12 @@ Given("Create Candidate to Hired", () => {
 
 When("Upload the file", () => {
   File.uploadedFile(vacancyName, path);
-  cy.get(".orangehrm-file-preview");
 });
 
 Then("Check upload file should contain the same data as was uploaded", () => {
-  cy.readFile("cypress/downloads/alaa.txt").should("contain", "hello");
+  checkDataFile("cypress/downloads/alaa.txt", "hello");
   deleteEmployee(empNumber);
-  deleteJob(idjob);
+  deleteJob(idJob);
   deleteVacancy(idVacancy);
   deleteCandidates(idCandidate);
 });

@@ -1,10 +1,10 @@
 import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
-import login from "../../support/PageObject/login";
-import { addCandidate, addEmployee, addJob, addUser, addVacancy, candidateShortList, deleteCandidates, deleteEmployee, deleteJob, deleteVacancy, sheduleInterview } from "../../support/Helper/Candidates/api-helper";
-import { visitHomePage } from "../../support/PageObject/common-page-visit";
+import login from "../../../support/PageObject/login";
+import { addCandidate, addEmployee, addJob, addUser, addVacancy, candidateShortList, deleteCandidates, deleteEmployee, deleteJob, deleteVacancy, sheduleInterview } from "../../../support/Helper/Candidates/api-helper";
+import { visitHomePage } from "../../../support/PageObject/common-page-visit";
 import moment from "moment";
-import Candidate from "../../support/PageObject/Candidate/candidate-action";
-import { checkFailAndButton, checkPassAndButtons } from "../../support/PageObject/Candidate/candidate-assertion";
+import Candidate from "../../../support/PageObject/Candidate/candidate-action";
+import { checkFailAndButton, checkPassAndButtons } from "../../../support/PageObject/Candidate/candidate-assertion";
 
 let firstNameCan: any;
 let middleNameCan: any;

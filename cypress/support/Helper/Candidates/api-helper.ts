@@ -6,7 +6,6 @@ export const URLs: any = {
   user: `${baseUrl}/api/v2/admin/users`,
   candidates: `${baseUrl}/api/v2/recruitment/candidates`,
   vacancy: `${baseUrl}/api/v2/recruitment/vacancies`,
-  claimRequests: `${baseUrl}/api/v2/claim/requests`,
   job: `${baseUrl}/api/v2/admin/job-titles`,
 };
 
@@ -40,6 +39,17 @@ export const addCandidate = (firstName: any, middleName: any, lastName: any, dat
       body: candidateData(firstName, middleName, lastName, date, email, vacancyId),
     })
     .then((res) => res.body.data.id);
+};
+export const candidateShortList = (idCandidate: any) => {
+  return cy
+    .api({
+      method: "PUT",
+      url: `/api/v2/recruitment/candidates/${idCandidate}/shortlist`,
+      body: {
+        note: null,
+      },
+    })
+    .then((res) => res);
 };
 
 export const sheduleInterview = (idCandidate: any, interviewName: any, interviewDate: any, empNumber: any) => {
@@ -77,18 +87,6 @@ export const candidateHired = (idCandidate: any, idInterview: any) => {
         },
       });
     });
-};
-
-export const candidateShortList = (idCandidate: any) => {
-  return cy
-    .api({
-      method: "PUT",
-      url: `/api/v2/recruitment/candidates/${idCandidate}/shortlist`,
-      body: {
-        note: null,
-      },
-    })
-    .then((res) => res);
 };
 
 export const deleteEmployee = (empNumber: any) => {
